@@ -14,7 +14,7 @@ storage:
         enabled: true
 ```
 
-Restart Docker Distribution
+Restart the registry
 ```
 systemctl restart docker-distribution
 ```
