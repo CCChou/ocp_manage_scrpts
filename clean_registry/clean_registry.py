@@ -5,12 +5,18 @@ def main():
     URL = 'localhost'
     PORT = 5000
 
-    conn = getconnection(URL, PORT) 
+    conn = getconnection(URL, PORT)
     repos = getrepos(conn)
+    if repos == None:
+        print('no repositories found')
+        conn.close()
+        return
     print('find %s repositories' % len(repos))
 
     for repo in repos:
         tags = gettags(conn, repo)
+        if tags == None:
+            continue
         print('find %s in %s repository' % (len(tags), repo))
 
         for tag in tags:
@@ -18,6 +24,8 @@ def main():
             print('deleting image "%s/%s" with manifest "%s"' % (repo, tag, digest))
             msg = deleteimage(conn, repo, digest)
             #print('deletion %s' % msg)
+            
+    conn.close() 
 
 def getconnection(url, port):
     return httplib.HTTPConnection(url, port)
