@@ -23,7 +23,7 @@ def main():
             digest = getdigest(conn, repo, tag)
             print('deleting image "%s/%s" with manifest "%s"' % (repo, tag, digest))
             msg = deleteimage(conn, repo, digest)
-            #print('deletion %s' % msg)
+            print('deletion %s' % msg)
             
     conn.close() 
 
@@ -54,10 +54,10 @@ def deleteimage(conn, repo, digest):
     url = '/v2/%s/manifests/%s' % (repo, digest)
     conn.request('DELETE', url, headers=headers)
     res = conn.getresponse()
-    #if res.status == 200:
-    #    return 'success'
-    #else:
-    #    return 'fail ' + res.read()
+    if res.status % 100 == 2:
+        return 'success'
+    else:
+        return 'fail, status: %s, msg: %s' % (res.status, res.read())
 
 
 if __name__ == '__main__':
