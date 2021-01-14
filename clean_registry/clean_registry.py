@@ -7,30 +7,28 @@ conn = None
 
 def main():
     initconnection()
-
     repos = getrepos()
     if repos is None:
-        print('no repositories found')
-        conn.close()
-        return
-    print('find %s repositories' % len(repos))
+        print('No repositories found')
+    else:
+        print('Find %s repositories' % len(repos))
 
     for repo in repos:
         tags = gettags(repo)
         if tags is None:
             continue
-        print('find %s in %s repository' % (len(tags), repo))
+        print('Find %s in %s repository' % (len(tags), repo))
 
         for tag in tags:
             digest = getdigest(repo, tag)
-            print('deleting image "%s/%s" with manifest "%s"' % (repo, tag, digest))
-            msg = deleteimage(conn, repo, digest)
-            print('deletion %s' % msg)
+            print('Deleting image "%s/%s" with manifest "%s"' % (repo, tag, digest))
+            msg = deleteimage(repo, digest)
+            print('Deletion %s' % msg)
             
     conn.close() 
 
 def initconnection():
-    conn = httplib.HTTPConnection(HOST, PORT)
+    global conn = httplib.HTTPConnection(HOST, PORT)
 
 def getrepos():
     conn.request('GET', '/v2/_catalog')
@@ -56,10 +54,11 @@ def deleteimage(repo, digest):
     url = '/v2/%s/manifests/%s' % (repo, digest)
     conn.request('DELETE', url, headers=headers)
     res = conn.getresponse()
+    data = res.read()
     if res.status % 100 == 2:
-        return 'success'
+        return 'success, status: %s' % res.status
     else:
-        return 'fail, status: %s, msg: %s' % (res.status, res.read())
+        return 'fail, status: %s, msg: %s' % (res.status, data)
 
 
 if __name__ == '__main__':
