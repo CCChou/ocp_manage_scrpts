@@ -17,7 +17,7 @@ def main():
         tags = gettags(repo)
         if tags is None:
             continue
-        print('Find %s in %s repository' % (len(tags), repo))
+        print('Find %s tags in %s repository' % (len(tags), repo))
 
         for tag in tags:
             digest = getdigest(repo, tag)
