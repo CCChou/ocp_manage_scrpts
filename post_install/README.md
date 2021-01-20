@@ -1,4 +1,4 @@
-# Clean Registry
+# Post Install
 
 ## Goals
 * Configure the OpenShift bash completion
