@@ -17,7 +17,7 @@ def configure_infra(nodes):
         subprocess.call("oc label node %s node-role.kubernetes.io/infra=" % node, shell=True)
         subprocess.call("oc label node %s node-role.kubernetes.io/worker-" % node, shell=True)
 
-    subprocess.call("oc create -f ./infra-mcp.yaml", shell=True)
+    subprocess.call("oc apply -f ./infra-mcp.yaml", shell=True)
     subprocess.call("oc adm taint nodes -l node-role.kubernetes.io/infra infra=reserved:NoSchedule infra=reserved:NoExecute", shell=True)
 
 def configure_router(nums):
@@ -28,7 +28,7 @@ def configure_registry():
     subprocess.call("oc patch configs.imageregistry.operator.openshift.io/cluster --type=merge -p \'{\"spec\":{\"nodeSelector\": {\"node-role.kubernetes.io/infra\": \"\"},\"tolerations\": [{\"effect\":\"NoSchedule\",\"key\": \"infra\",\"value\": \"reserved\"},{\"effect\":\"NoExecute\",\"key\": \"infra\",\"value\": \"reserved\"}]}}\'", shell=True)
 
 def configure_monitoring():
-    subprocess.call("oc create -f ./cluster-monitoring-configmap.yaml", shell=True)
+    subprocess.call("oc apply -f ./cluster-monitoring-configmap.yaml", shell=True)
 
 
 if __name__ == "__main__":
