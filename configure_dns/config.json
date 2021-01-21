@@ -1,0 +1,44 @@
+{
+  "clusterName": "test",
+  "baseDomain": "sysage.lab",
+  "lb": "10.9.43.220",
+  "cidr": "10.9.43.0/24",
+  "upstream": "168.95.1.1",
+  "nodes": [
+    {
+      "name": "bastion",
+      "role": "bastion",
+      "ip": "10.9.43.220"  
+    },
+    {
+      "name": "bootstrap",
+      "role": "bootstrap",
+      "ip": "10.9.43.221"  
+    },
+    {
+      "name": "master1",
+      "role": "master",
+      "ip": "10.9.43.222"  
+    },
+    {
+      "name": "master2",
+      "role": "master",
+      "ip": "10.9.43.223"  
+    },
+    {
+      "name": "master3",
+      "role": "master",
+      "ip": "10.9.43.224"  
+    },
+    {
+      "name": "worker1",
+      "role": "worker",
+      "ip": "10.9.43.225"  
+    },
+    {
+      "name": "worker2",
+      "role": "worker",
+      "ip": "10.9.43.226"  
+    }
+  ]
+}
