@@ -4,6 +4,7 @@
 * [Configure Infra](https://github.com/CCChou/ocp_management_scripts/tree/master/configure_infra) : Configure worker node to infra node
 
 ## TODO
+* Smoke Test for checking DNS, LB, Internet connection ...etc
 * EFK Install
 * Service Mesh Install
 * Create install_config.yaml
