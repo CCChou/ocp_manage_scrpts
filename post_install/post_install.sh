@@ -21,7 +21,7 @@ install_completion() {
 add_default_user() {
   echo "Start adding user ..."
 
-  htpasswd -c -B -b "${TMP_PATH $USER $PWD}"
+  htpasswd -c -B -b "${TMP_PATH}" "${USER}" "${PWD}"
   oc create secret generic htpass-secret --from-file=htpasswd="${TMP_PATH}" -n openshift-config
   oc apply -f - << EOF
 apiVersion: config.openshift.io/v1
