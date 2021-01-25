@@ -14,15 +14,15 @@ def main():
 
 def configure_infra(nodes):
     for node in nodes:
-        subprocess.call("oc label node %s node-role.kubernetes.io/infra=" % node, shell=True)
-        subprocess.call("oc label node %s node-role.kubernetes.io/worker-" % node, shell=True)
+        subprocess.call("oc label node {} node-role.kubernetes.io/infra=".format(node), shell=True)
+        subprocess.call("oc label node {} node-role.kubernetes.io/worker-".format(node), shell=True)
 
     subprocess.call("oc apply -f ./infra-mcp.yaml", shell=True)
     subprocess.call("oc adm taint nodes -l node-role.kubernetes.io/infra infra=reserved:NoSchedule infra=reserved:NoExecute", shell=True)
 
 def configure_router(nums):
     subprocess.call("oc patch ingresscontroller/default -n  openshift-ingress-operator --type=merge -p \'{\"spec\":{\"nodePlacement\": {\"nodeSelector\": {\"matchLabels\": {\"node-role.kubernetes.io/infra\": \"\"}},\"tolerations\": [{\"effect\":\"NoSchedule\",\"key\": \"infra\",\"value\": \"reserved\"},{\"effect\":\"NoExecute\",\"key\": \"infra\",\"value\": \"reserved\"}]}}}\'", shell=True)
-    subprocess.call("oc patch ingresscontroller/default -n openshift-ingress-operator --type=merge -p \'{\"spec\":{\"replicas\": %s}}\'" % nums, shell=True)
+    subprocess.call("oc patch ingresscontroller/default -n openshift-ingress-operator --type=merge -p \'{\"spec\":{\"replicas\": {}}}\'".format(nums), shell=True)
 
 def configure_registry():
     subprocess.call("oc patch configs.imageregistry.operator.openshift.io/cluster --type=merge -p \'{\"spec\":{\"nodeSelector\": {\"node-role.kubernetes.io/infra\": \"\"},\"tolerations\": [{\"effect\":\"NoSchedule\",\"key\": \"infra\",\"value\": \"reserved\"},{\"effect\":\"NoExecute\",\"key\": \"infra\",\"value\": \"reserved\"}]}}\'", shell=True)

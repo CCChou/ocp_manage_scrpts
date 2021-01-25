@@ -2,9 +2,10 @@ import json
 import sys
 import subprocess
 from abc import ABCMeta, abstractmethod
-from ..common.constant import Node
+from scripts.common.constant import Node
 
 
+Node = Node()
 CONFIG_PATH = '/etc/dnsmasq.d/dns.conf'
 
 def main():
@@ -49,16 +50,16 @@ def generate_config_content(config):
 
 def generate_base(cluster_name, base_domain, cidr, upstream):
     content = ''
-    content += 'domain=%s.%s,%s,local\n' % (cluster_name, base_domain, cidr)
-    content += 'server=%s\n' % upstream
+    content += 'domain={}.{},{},local\n'.format(cluster_name, base_domain, cidr)
+    content += 'server={}\n'.format(upstream)
     return content
 
 def generate_record(nodes, cluster_name, base_domain, lb_ip):
     content = ''
     for node in nodes:
-        content += 'host-record=%s.%s.%s,%s\n' % (node['name'], cluster_name, base_domain, node['ip'])
-    content += 'host-record=api.%s.%s,%s\n' % (cluster_name, base_domain, lb_ip)
-    content += 'host-record=api-int.%s.%s,%s\n' % (cluster_name, base_domain, lb_ip)
+        content += 'host-record={}.{}.{},{}\n'.format(node['name'], cluster_name, base_domain, node['ip'])
+    content += 'host-record=api.{}.{},{}\n'.format(cluster_name, base_domain, lb_ip)
+    content += 'host-record=api-int.{}.{},{}\n'.format(cluster_name, base_domain, lb_ip)
     content += generate_etcd_record(nodes, cluster_name, base_domain)
     return content
 
@@ -66,19 +67,19 @@ def generate_etcd_record(nodes, cluster_name, base_domain):
     master_nodes = [node for node in nodes if node['role'] == Node.MASTER]
     content = ''
     for i, master_node in enumerate(master_nodes):
-        content += 'host-record=etcd-%s.%s.%s,%s\n' % (i, cluster_name, base_domain, master_node['ip'])
+        content += 'host-record=etcd-{}.{}.{},{}\n'.format(i, cluster_name, base_domain, master_node['ip'])
     for i in range(3):
-        content += 'srv-host=_etcd-server-ssl._tcp.ibm.cp.example,etcd-%s.ibm.cp.example,2380,0,10\n' % i
+        content += 'srv-host=_etcd-server-ssl._tcp.ibm.cp.example,etcd-{}.ibm.cp.example,2380,0,10\n'.format(i)
     return content
 
 def generate_address(nodes, cluster_name, base_domain, lb_ip):
     content = ''
     for node in nodes:
-        content += 'address=/%s.%s.%s/%s\n' % (node['name'], cluster_name, base_domain, node['ip'])
-    content += 'address=/apps.%s.%s/%s\n' % (cluster_name, base_domain, lb_ip)
-    content += 'address=/.apps.%s.%s/%s\n' % (cluster_name, base_domain, lb_ip)
-    content += 'address=/api.%s.%s/%s\n' % (cluster_name, base_domain, lb_ip)
-    content += 'address=/api-int.%s.%s/%s\n' % (cluster_name, base_domain, lb_ip)
+        content += 'address=/{}.{}.{}/{}\n'.format(node['name'], cluster_name, base_domain, node['ip'])
+    content += 'address=/apps.{}.{}/{}\n'.format(cluster_name, base_domain, lb_ip)
+    content += 'address=/.apps.{}.{}/{}\n'.format(cluster_name, base_domain, lb_ip)
+    content += 'address=/api.{}.{}/{}\n'.format(cluster_name, base_domain, lb_ip)
+    content += 'address=/api-int.{}.{}/{}\n'.format(cluster_name, base_domain, lb_ip)
     return content
 
 if __name__ == '__main__':
