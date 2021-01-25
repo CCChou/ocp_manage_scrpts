@@ -69,7 +69,3 @@ make configure_lb
 * EFK Install
 * Service Mesh Install
 * Create install_config.yaml
-* Install and configure haproxy
-* Install and configure dnsmasq
-* Add a makefile for integration
-* Add a config.yaml for configuration
