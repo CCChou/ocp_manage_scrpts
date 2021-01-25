@@ -1,3 +1,4 @@
+export PYTHONPATH:=.:$(PYTHONPATH)
 .PHONY: configure_lb
 
 clean_registry:
