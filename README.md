@@ -36,7 +36,7 @@ The script will do following things
 
 Run scripts
 ```
-make post_install
+make post_install USER={username} PWD={password}
 ```
 
 ## Configure Infra
