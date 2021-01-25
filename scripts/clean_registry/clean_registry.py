@@ -28,7 +28,8 @@ def main():
     conn.close() 
 
 def initconnection():
-    global conn = httplib.HTTPConnection(HOST, PORT)
+    global conn
+    conn = httplib.HTTPConnection(HOST, PORT)
 
 def getrepos():
     conn.request('GET', '/v2/_catalog')
