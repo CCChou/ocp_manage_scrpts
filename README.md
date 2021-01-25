@@ -1,7 +1,9 @@
 # OpenShift Management Scripts
-* [Clean Registry Script](https://github.com/CCChou/ocp_management_scripts/tree/master/clean_registry) : Clean all images in the docker registry
-* [Post Install](https://github.com/CCChou/ocp_management_scripts/tree/master/post_install) : Common post installing steps
-* [Configure Infra](https://github.com/CCChou/ocp_management_scripts/tree/master/configure_infra) : Configure worker node to infra node
+* [Clean Registry Script](https://github.com/CCChou/ocp_management_scripts#clean-registry) : Clean all images in the docker registry
+* [Post Install](https://github.com/CCChou/ocp_management_scripts#post-install) : Common post installing steps
+* [Configure Infra](https://github.com/CCChou/ocp_management_scripts#configure-infra) : Configure worker node to infra node
+* [Configure DNS](https://github.com/CCChou/ocp_management_scripts#configure-dns) : Configure DNS for OpenShift prerequisites
+* [Configure LB](https://github.com/CCChou/ocp_management_scripts#configure-lb) : Configure LB for OpenShift prerequisites
 
 ## Clean Registry
 First, you need to open the delete features in docker registry
