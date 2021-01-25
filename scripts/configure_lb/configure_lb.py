@@ -26,7 +26,7 @@ def main():
 
     config = read_config(sys.argv[1])
     nodes = config['nodes']
-    worker_nodes = [node for node in nodes if node['role'] == Node.WORKER]
+    worker_nodes = [node for node in nodes if node['role'] == Node.WORKER or node['role' == Node.INFRA]]
     master_nodes = [node for node in nodes if node['role'] == Node.MASTER or node['role'] == Node.BOOTSTRAP]
     create_config(worker_nodes, master_nodes)
     

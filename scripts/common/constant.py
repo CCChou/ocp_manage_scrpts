@@ -10,3 +10,7 @@ class Node:
     @property
     def WORKER(self):
         return 'worker'
+
+    @property
+    def INFRA(self):
+        return 'infra'

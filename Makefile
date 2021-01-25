@@ -6,10 +6,10 @@ clean_registry:
 	registry garbage-collect /etc/docker-distribution/registry/config.yml 
 
 post_install:
-	sh scripts/post_install/post_install.sh
+	sh scripts/post_install/post_install.sh $(USER) $(PWD)
 
 configure_infra:
-	python scripts/configure_infra/configure_infra
+	python scripts/configure_infra/configure_infra.py config.json
 
 configure_dns:	
 	python scripts/configure_dns/configure_dns.py config.json

@@ -39,6 +39,11 @@
       "name": "worker2",
       "role": "worker",
       "ip": "10.9.43.226"  
+    },
+    {
+      "name": "infra3",
+      "role": "infra",
+      "ip": "10.9.43.227"  
     }
   ]
 }
