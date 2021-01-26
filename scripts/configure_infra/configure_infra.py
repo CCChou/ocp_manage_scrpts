@@ -1,16 +1,26 @@
 import sys
+import json
 import subprocess
+from scripts.common.constant import Node
 
+
+Node = Node()
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: configure_infra.py [node] [node] ...")
+        print("Usage: configure_infra.py [/path/to/config]")
         return
-    nodes = sys.argv[1:]
+
+    config = read_config(sys.argv[1])
+    nodes = [node for node in nodes if node['role'] == Node.INFRA]
     configure_infra(nodes)
     configure_router(len(nodes))
     configure_registry()
     configure_monitoring()
+
+def read_config(config_path):
+    with open(config_path, 'r') as file:
+        return json.load(file)
 
 def configure_infra(nodes):
     for node in nodes:
