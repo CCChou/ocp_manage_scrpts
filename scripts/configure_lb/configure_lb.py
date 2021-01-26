@@ -63,13 +63,19 @@ def generate_rule(nodes, name, port):
     return content
 
 def save_config(content):
+    temp_path = CONFIG_PATH + '.tmp'
     if os.path.exists(CONFIG_PATH):
-        raise IOError('{} already exists'.format(CONFIG_PATH))
+        os.rename(CONFIG_PATH, temp_path)
 
-    template_path = find_filepath('.', 'haproxy.cfg.tpl')
-    shutil.copyfile(template_path, CONFIG_PATH)
-    with open(CONFIG_PATH, 'w') as file:
-        file.write(content)
+    try:
+        template_path = find_filepath('.', 'haproxy.cfg.tpl')
+        shutil.copyfile(template_path, CONFIG_PATH)
+        with open(CONFIG_PATH, 'a') as file:
+            file.write(content)
+    except:
+        os.rename(temp_path, CONFIG_PATH)
+
+    os.remove(temp_path)
 
 def find_filepath(path, name):
     for root, dirs, files in os.walk(path):
