@@ -26,7 +26,7 @@ def main():
 
     config = read_config(sys.argv[1])
     nodes = config['nodes']
-    worker_nodes = [node for node in nodes if node['role'] == Node.WORKER or node['role' == Node.INFRA]]
+    worker_nodes = [node for node in nodes if node['role'] == Node.WORKER or node['role'] == Node.INFRA]
     master_nodes = [node for node in nodes if node['role'] == Node.MASTER or node['role'] == Node.BOOTSTRAP]
     create_config(worker_nodes, master_nodes)
     
@@ -45,11 +45,11 @@ def create_config(worker_nodes, master_nodes):
     content += generate_rule(worker_nodes, "ingress-https", "443")
     content += generate_rule(worker_nodes, "ingress-http", "80")
     
-    os.rename(CONFIG_PATH, CONFIG_PATH + '.tmp')
+    if os.path.exists(CONFIG_PATH):
+        raise('Config already exists')
     shutil.copyfile('./haproxy.cfg.tpl', CONFIG_PATH)
     with open(CONFIG_PATH, 'w') as file:
         file.write(content)
-    os.remove(CONFIG_PATH + '.tmp')
 
 def generate_rule(nodes, name, port):
     content = CONTENT_PATTERN.format(name, port)
