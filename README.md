@@ -69,3 +69,4 @@ make configure_lb
 * EFK Install
 * Service Mesh Install
 * Create install_config.yaml
+* CoreOS installer automation
